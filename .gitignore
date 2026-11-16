@@ -1,0 +1,8 @@
+# Ignorar archivos con datos sensibles y claves
+config_secreta.json
+
+# Ignorar archivos temporales de Python y PyCharm
+__pycache__/
+*.pyc
+.idea/
+~$*.xlsx
