@@ -11,6 +11,11 @@ class FrontendInterfaz:
         self.ventana.geometry("1080x680")
         self.ventana.configure(bg="#1b2631")
 
+        # --- NUEVO: Cambiar ícono de la ventana y confirmar cierre con la X ---
+        self.__configurar_icono_ventana()
+        self.ventana.protocol("WM_DELETE_WINDOW", self.confirmar_cierre)
+
+
         # Variables de control de Tkinter
         self.var_nombre = tk.StringVar()
         self.var_tipo_doc = tk.StringVar(value="Cédula de Ciudadanía")
@@ -41,10 +46,34 @@ class FrontendInterfaz:
         menu_archivo.add_command(label="Abrir archivo Excel...", command=self.accion_abrir_excel)
         menu_archivo.add_command(label="Guardar copia Excel como...", command=self.accion_guardar_como)
         menu_archivo.add_separator()
-        menu_archivo.add_command(label="Salir", command=self.ventana.destroy)
+        menu_archivo.add_command(label="Salir", command=self.confirmar_cierre)
 
         barra_menu.add_cascade(label="Archivo y Datos", menu=menu_archivo)
         self.ventana.config(menu=barra_menu)
+
+    #ACA se añadio el logo nuevo y el comando para cerrar
+    def __configurar_icono_ventana(self):
+        # Intenta cargar 'logo.png' si existe en la carpeta; si no, dibuja un escudo azul por código
+        try:
+            self.icono_app = tk.PhotoImage(file="logo.png")
+            self.ventana.iconphoto(True, self.icono_app)
+        except Exception:
+            icono = tk.PhotoImage(width=16, height=16)
+            icono.put("#154360", to=(0, 0, 16, 16))
+            icono.put("#48c9b0", to=(3, 2, 13, 12))
+            icono.put("#48c9b0", to=(5, 12, 11, 14))
+            icono.put("#154360", to=(6, 5, 10, 10))
+            self.icono_app = icono
+            self.ventana.iconphoto(True, self.icono_app)
+
+    def confirmar_cierre(self):
+        respuesta = messagebox.askokcancel(
+            "Confirmar salida",
+            "¿Estás seguro que quieres cerrar la alarma?"
+        )
+        if respuesta:
+            self.__detener_temporizador_warning()
+            self.ventana.destroy()
 
     # 2. BANNER DE BIENVENIDA (Estética de tu diseño)
     def __crear_banner_superior(self):
