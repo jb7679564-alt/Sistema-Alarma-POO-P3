@@ -55,7 +55,7 @@ class FrontendInterfaz:
     def __configurar_icono_ventana(self):
         # Intenta cargar 'logo.png' si existe en la carpeta; si no, dibuja un escudo azul por código
         try:
-            self.icono_app = tk.PhotoImage(file="logo.png")
+            self.icono_app = tk.PhotoImage(file="logo_22.png")
             self.ventana.iconphoto(True, self.icono_app)
         except Exception:
             icono = tk.PhotoImage(width=16, height=16)
